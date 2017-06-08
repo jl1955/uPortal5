@@ -1,0 +1,18 @@
+language: java
+jdk: oraclejdk8
+sudo: false
+
+# ./gradlew assemble (default install command) won't cut it
+install:
+  - ./gradlew install
+  - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+
+script:
+  - mvn clean test cobertura:cobertura coveralls:report -B -V
+  - ./gradlew -u -i -S check
+
+cache:
+  directories:
+    - $HOME/.m2
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
