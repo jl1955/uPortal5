@@ -84,6 +84,34 @@
             <releases><enabled>false</enabled></releases>
             <snapshots><enabled>false</enabled></snapshots>
         </repository>
+        <repository>
+			<id>rutgers.release</id>
+			<name>Rutgers Release Proxy</name>
+			<layout>default</layout>
+			<url>http://repository.ess.rutgers.edu/content/groups/public</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>rutgers.snapshot</id>
+			<name>Rutgers Snapshot Proxy</name>
+			<layout>default</layout>
+			<url>http://repository.ess.rutgers.edu/content/groups/public-snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>fail</checksumPolicy>
+			</snapshots>
+		</repository>
     </repositories>
 
     <pluginRepositories>
@@ -101,6 +129,18 @@
             <releases><enabled>false</enabled></releases>
             <snapshots><enabled>false</enabled></snapshots>
         </pluginRepository>
+        <pluginRepository>
+			<id>rutgers.release</id>
+			<name>Rutgers Release Proxy</name>
+			<layout>default</layout>
+			<url>http://repository.ess.rutgers.edu/content/groups/public</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
     </pluginRepositories>
 
 
@@ -223,7 +263,7 @@
         <staxmate.version>2.2.1</staxmate.version>
         <stringtemplate.version>4.0.2</stringtemplate.version>
         <tika.version>1.5</tika.version>
-        <tomcat-jdbc.version>7.0.37</tomcat-jdbc.version>
+        <tomcat-jdbc.version>7.0.47</tomcat-jdbc.version>
         <uPortal.version>5.0.0-SNAPSHOT</uPortal.version>
         <uportal-ear-deployer.version>3.1.5</uportal-ear-deployer.version>
         <uportal-maven-plugin.version>1.0.1</uportal-maven-plugin.version>
@@ -242,6 +282,7 @@
         <project.build.sourceVersion>1.8</project.build.sourceVersion>
         <project.build.targetVersion>1.8</project.build.targetVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <oracle.version>11.2.0.3</oracle.version>
     </properties>
 
     <modules>
@@ -1219,6 +1260,11 @@
                 <artifactId>xmlunit</artifactId>
                 <version>${xmlunit.version}</version>
             </dependency>
+            <dependency>
+	            <groupId>com.oracle</groupId>
+	    		<artifactId>ojdbc6</artifactId>
+	            <version>${oracle.version}</version>
+        	</dependency>
         </dependencies>
     </dependencyManagement>
 

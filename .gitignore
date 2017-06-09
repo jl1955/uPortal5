@@ -411,6 +411,7 @@ modules.xml
 # Project specific ignores
 /build.properties
 /data/
+/filters/
 
 ## Jekyll documentation
 
@@ -435,3 +436,5 @@ modules.xml
 !**/src/test/**/*.tar.gz
 !**/src/test/**/*.tgz
 !**/src/test/**/*.zip
+
+

@@ -49,7 +49,8 @@ dependencies {
      * The HSQL driver jar should always be included with 'vanilla' uPortal
      * from Apereo;  aditional JDBC drivers may be added in the overlay process
      */
-    runtime "org.hsqldb:hsqldb:${hsqldbVersion}"
+    //runtime "org.hsqldb:hsqldb:${hsqldbVersion}"
+    runtime "com.oracle:ojdbc6:${oracleJdbcVersion}"
 
     /*
      * Additional runtime dependencies that were present in uP 4.3.x and may
