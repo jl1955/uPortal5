@@ -32,13 +32,15 @@ public class PortalPersonDirUserPasswordDaoTest extends TestCase {
      */
     @Override
     protected void setUp() throws Exception {
-        this.dataSource =
+       /* this.dataSource =
                 new SimpleDriverDataSource(
-                        new org.hsqldb.jdbcDriver(), "jdbc:hsqldb:mem:CasTest", "sa", "");
-
+                        new org.hsqldb.jdbcDriver(), "jdbc:hsqldb:mem:CasTest", "sa", "");*/
+        this.dataSource =		 
+        		new SimpleDriverDataSource(new oracle.jdbc.OracleDriver(), 
+        				"jdbc:oracle:thin:@acs3-db.ess.rutgers.edu:1521:acs3", "jl1955", "Mko09ijn18");
         this.jdbcTemplate = new JdbcTemplate(this.dataSource);
         this.jdbcTemplate.execute(
-                "CREATE TABLE UP_PERSON_DIR (USER_NAME VARCHAR(1000), ENCRPTD_PSWD VARCHAR(1000))");
+              "CREATE TABLE UP_PERSON_DIR_2 (USER_NAME VARCHAR(1000), ENCRPTD_PSWD VARCHAR(1000))");
 
         this.userPasswordDao = new PortalPersonDirUserPasswordDao();
         this.userPasswordDao.setDataSource(this.dataSource);
@@ -49,7 +51,7 @@ public class PortalPersonDirUserPasswordDaoTest extends TestCase {
      */
     @Override
     protected void tearDown() throws Exception {
-        this.jdbcTemplate.execute("SHUTDOWN");
+        this.jdbcTemplate.execute("DROP TABLE UP_PERSON_DIR_2");
 
         this.dataSource = null;
         this.jdbcTemplate = null;
@@ -57,24 +59,25 @@ public class PortalPersonDirUserPasswordDaoTest extends TestCase {
     }
 
     public void testNonExistantUser() {
-        final String passwordHash = this.userPasswordDao.getPasswordHash("foobar");
+        final String passwordHash = this.userPasswordDao.getPasswordHash("foobar1");
         assertNull(passwordHash);
     }
 
     public void testSingleUser() {
-        this.jdbcTemplate.update("INSERT INTO UP_PERSON_DIR VALUES ('foobar', 'pass1')");
+        this.jdbcTemplate.update("INSERT INTO UP_PERSON_DIR_2 VALUES ('foobar', 'pass1')");
 
         final String passwordHash = this.userPasswordDao.getPasswordHash("foobar");
         assertEquals("pass1", passwordHash);
     }
 
     public void testDuplicateUser() {
-        this.jdbcTemplate.update("INSERT INTO UP_PERSON_DIR VALUES ('foobar', 'pass1')");
-        this.jdbcTemplate.update("INSERT INTO UP_PERSON_DIR VALUES ('foobar', 'pass2')");
+        this.jdbcTemplate.update("INSERT INTO UP_PERSON_DIR_2 VALUES ('foobar', 'pass1')");
+        this.jdbcTemplate.update("INSERT INTO UP_PERSON_DIR_2 VALUES ('foobar', 'pass2')");
 
         try {
-            this.userPasswordDao.getPasswordHash("foobar");
-            fail("should have thrown IncorrectResultSizeDataAccessException");
+        	final String passwordHash = this.userPasswordDao.getPasswordHash("foobar");
+        	//assertEquals("pass1", passwordHash);
+            fail("should have thrown IncorrectResultSizeDataAccessException" + ":" + passwordHash);
         } catch (IncorrectResultSizeDataAccessException e) {
             //expected
         }

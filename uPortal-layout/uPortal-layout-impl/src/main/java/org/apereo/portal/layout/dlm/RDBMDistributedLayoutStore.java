@@ -891,6 +891,7 @@ public class RDBMDistributedLayoutStore extends RDBMUserLayoutStore {
             final String fname = c.valueOf("@fname");
             final IPortletDefinition cd =
                     this.portletDefinitionRegistry.getPortletDefinitionByFname(fname);
+            logger.error("importLayout ===>fname" + fname);
             if (cd == null) {
                 final String msg =
                         "No portlet with fname="
