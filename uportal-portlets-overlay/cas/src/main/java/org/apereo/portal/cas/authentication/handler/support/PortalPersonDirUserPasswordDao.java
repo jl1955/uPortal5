@@ -25,7 +25,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
  */
 public class PortalPersonDirUserPasswordDao implements UserPasswordDao {
     private static final String PERSON_DIR_QUERY =
-            "SELECT ENCRPTD_PSWD FROM UP_PERSON_DIR_2 WHERE USER_NAME = ?";
+            "SELECT ENCRPTD_PSWD FROM UP_PERSON_DIR WHERE USER_NAME = ?";
 
     private DataSource dataSource;
     private JdbcTemplate jdbcTemplate;
