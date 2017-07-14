@@ -76,8 +76,16 @@ node {
     download = true
 }
 
+ def envProp =  new Properties()
+ file("../filters/local.properties").withInputStream{envProp.load(it);}
+
 processResources {
     filter(ReplaceTokens, tokens:['projectVersion': project.version])
+    filter(ReplaceTokens, tokens: envProp)
+    
+     def portalProp =  new Properties()
+ 	 file("/src/main/resources/properties/portal.properties").withInputStream{portalProp.load(it);}
+ 	 filter(ReplaceTokens, tokens: portalProp)
 }
 
 war {
@@ -86,6 +94,9 @@ war {
         from 'build/generated-sources/skin/main/webapp'
         into '/'
     }
+    
+    //properties filtering in web.xml
+    filesMatching("**/*.xml") {filter(ReplaceTokens, tokens: envProp)}
 }
 
 /*

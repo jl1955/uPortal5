@@ -28,7 +28,7 @@
 <config xmlns="urn:org:jgroups"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="urn:org:jgroups http://www.jgroups.org/schema/JGroups-3.1.xsd">
-    <TCP bind_port="${uPortal.cacheManager.jgroups.tcp.bind_port}"
+    <TCP bind_port="@uPortal.cacheManager.jgroups.tcp.bind_port@"
          loopback="false"
          recv_buf_size="${tcp.recv_buf_size:20M}"
          send_buf_size="${tcp.send_buf_size:640K}"
@@ -60,15 +60,15 @@
          oob_thread_pool.rejection_policy="discard"/>
 
     <JDBC_PING
-            connection_url="${hibernate.connection.url}"
-            connection_username="${hibernate.connection.username}"
-            connection_password="${hibernate.connection.password}"
-            connection_driver="${hibernate.connection.driver_class}"
+            connection_url="@environment.build.hibernate.connection.url@"
+            connection_username="@environment.build.hibernate.connection.username@"
+            connection_password="@environment.build.hibernate.connection.password@"
+            connection_driver="@environment.build.hibernate.connection.driver_class@"
             initialize_sql="CREATE TABLE JGROUPSPING (own_addr varchar(200) NOT NULL, cluster_name varchar(200) NOT NULL, ping_data blob DEFAULT NULL, PRIMARY KEY (own_addr, cluster_name) )"
     />
     <MERGE2  min_interval="10000"
              max_interval="30000"/>
-    <FD_SOCK start_port="${uPortal.cacheManager.jgroups.fd_sock.start_port}"/>
+    <FD_SOCK start_port="@uPortal.cacheManager.jgroups.fd_sock.start_port@"/>
     <FD timeout="3000" max_tries="3" />
     <VERIFY_SUSPECT timeout="1500"  />
     <BARRIER />
