@@ -200,6 +200,7 @@
                         *not* be given a chance to process the original query. But they will if you add
                         them directly to the MergingPersonAttributeDaoImpl.personAttributeDaos list here.)
                         -->
+                        <ref bean="uPortalLdapAttributeSource"/>
                     </list>
                 </property>
             </bean>
@@ -283,4 +284,114 @@
     <bean id="userAttributeCacheKeyGenerator" class="org.apereo.portal.utils.cache.PersonDirectoryCacheKeyGenerator">
         <property name="ignoreEmptyAttributes" value="true" />
     </bean>
+    
+    <!-- RU: LDAP Person Attribute Source, uses the default ILdapServer via the LdapServices.getDefaultLdapServer method call -->
+	<bean id="uPortalLdapAttributeSource" class="org.jasig.services.persondir.support.ldap.LdapPersonAttributeDao">
+		<property name="queryAttributeMapping">
+		    <map>
+            	<entry key="username" value="rutgersEduRCPID" />
+        	</map>
+		</property>
+		<property name="contextSource" ref="legacyLdapContext" />
+		<property name="resultAttributeMapping">
+			<map>
+				<entry key="rutgersEduRCPID">   				<value>rutgersEduRCPID</value></entry>
+                <entry key="rutgersEduRUID">                    <value>rutgersEduRUID</value></entry>
+                <entry key="rutgersEduCampusLocation">          <value>rutgersEduCampusLocation</value></entry>
+				<entry key="rutgersEduStudentID">   			<value>rutgersEduStudentID</value></entry>
+				<entry key="rutgersEduCampusService">   		<value>rutgersEduCampusService</value></entry>
+				<entry key="rutgersEduStatus">   				<value>rutgersEduStatus</value></entry>
+				<entry key="rutgersEduAuth">   					<value>ruauth</value></entry>
+				<entry key="rutgersEduNt4password">   			<value>nt4password</value></entry>
+				<entry key="rutgersEduStudentLocation">   		<value>rutgersEduStudentLocation</value></entry>
+				<entry key="rutgersEduStaffLocation">   		<value>rutgersEduStaffLocation</value></entry>
+				<entry key="rutgersEduStudentFtPt">   	    	<value>rutgersEduStudentFtPt</value></entry>
+				<entry key="rutgersEduStudentUnit">   			<value>rutgersEduStudentUnit</value></entry>
+				<entry key="rutgersEduStudentUnitCode">   		<value>rutgersEduStudentUnitCode</value></entry>
+				<entry key="rutgersEduStudentCurricCode">		<value>rutgersEduStudentCurricCode</value></entry>
+				<entry key="rutgersEduStudentCourseReg">		<value>rutgersEduStudentCourseReg</value></entry>
+				<entry key="rutgersEduReportingRelationship">	<value>rutgersEduReportingRelationship</value></entry>
+				<entry key="rutgersEduStaffDepartment">   		<value>rutgersEduStaffDepartment</value></entry>
+				<entry key="rutgersEduOrganizationCode">		<value>rutgersEduOrganizationCode</value></entry>
+				<entry key="rutgersEduEmployeeType">   			<value>rutgersEduEmployeeType</value></entry>			
+				<entry key="eduPersonPrimaryAffiliation">   		<value>eduPersonPrimaryAffiliation</value></entry>
+				<entry key="eduPersonAffiliation">          		<value>eduPersonAffiliation</value></entry>
+				<entry key="eduPersonOrcid">          		        <value>eduPersonOrcid</value></entry>
+				<entry key="eduPersonNickname">
+					<set>
+	                	<value>eduPersonNickname</value>
+	                	<value>user.name.nickName</value>
+	          		</set>
+        		</entry>
+				<entry key="eduPersonOrgDN">
+                	<set>
+                   		<value>eduPersonOrgDN</value>
+                   		<value>user.employer</value>
+               		</set>
+        		</entry>
+				<entry key="eduPersonOrgUnitDN">
+                	<set>
+                	<value>eduPersonOrgUnitDN</value>
+                	<value>user.department</value>
+                	</set>
+        		</entry>
+				<entry key="eduPersonPrincipalName">        <value>eduPersonPrincipalName</value></entry>
+				<entry key="c">                             <value>c</value></entry>
+				<entry key="cn">                            <value>displayName</value></entry>
+				<entry key="description">                   <value>description</value></entry>
+				<entry key="displayName">                   <value>displayName</value></entry>
+				<entry key="facsimileTelephoneNumber">      <value>facsimileTelephoneNumber</value></entry>
+				<entry key="givenName">
+                	<set>
+                    	<value>givenName</value>
+                        <value>user.name.given</value>
+                	</set>
+        		</entry>
+				<entry key="homePhone">                     <value>homePhone</value></entry>
+				<entry key="homePostalAddress">             <value>homePostalAddress</value></entry>
+				<entry key="initials">                      <value>initials</value></entry>
+				<entry key="jpegPhoto">                     <value>jpegPhoto</value></entry>
+				<entry key="l">                             <value>l</value></entry>
+				<entry key="labeledURI">                    <value>labeledURI</value></entry>
+				<entry key="mail">
+                	<set>
+                		<value>mail</value>
+                		<value>user.home-info.online.email</value>
+                 	</set>
+        		</entry>
+				<entry key="mobile">                        <value>mobile</value></entry>
+				<entry key="o">                             <value>o</value></entry>
+				<entry key="ou">                            <value>ou</value></entry>
+				<entry key="pager">                         <value>pager</value></entry>
+				<entry key="postalAddress">                 <value>postalAddress</value></entry>
+				<entry key="postalCode">                    <value>postalCode</value></entry>
+				<entry key="postOfficeBox">                 <value>postOfficeBox</value></entry>
+				<entry key="preferredLanguage">             <value>preferredLanguage</value></entry>
+				<entry key="seeAlso">                       <value>seeAlso</value></entry>
+				<entry key="sn">
+                	<set>
+                    	<value>sn</value>
+                   		<value>user.name.family</value>
+                	</set>
+        		</entry>
+				<entry key="st">                            <value>st</value></entry>
+				<entry key="street">                        <value>street</value></entry>
+				<entry key="telephoneNumber">               <value>telephoneNumber</value></entry>
+				<entry key="uid">
+                	<set>
+                    	<value>uid</value>
+                   		<value>user.login.id</value>
+                	</set>
+        		</entry>
+				<entry key="userCertificate">               <value>userCertificate</value></entry>
+				<entry key="userSMIMECertificate">          <value>userSMIMECertificate</value></entry>
+				<entry key="rutgersEduSORSource">           <value>rutgersEduSORSource</value></entry>
+				<entry key="rutgersEduRBHSPIDM">            <value>rutgersEduRBHSPIDM</value></entry>
+				<entry key="rutgersEduRBHSId">              <value>rutgersEduRBHSId</value></entry>
+				<entry key="rutgersEduPHI">                 <value>rutgersEduPHI</value></entry>
+				<entry key="employeeType">                  <value>employeeType</value></entry>
+				<entry key="rutgersEduEmplId">              <value>rutgersEduEmplId</value></entry>
+			</map>
+		</property>
+	</bean>		
 </beans>

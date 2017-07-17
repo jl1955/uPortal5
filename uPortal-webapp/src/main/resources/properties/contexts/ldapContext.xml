@@ -22,9 +22,11 @@
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns="http://www.springframework.org/schema/beans" 
        xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:jee="http://www.springframework.org/schema/jee"
        xsi:schemaLocation="
             http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
-            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd">
+            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd
+            http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd" >
 
     <!--
      | Example LDAP Server Configurations
@@ -40,20 +42,37 @@
      | Required for:
      |  - SimpleLdapSecurityContext
      +-->
-    <!--
+     
+     <!-- MyRutgers LDAP Server Configurations -->    
+    <jee:jndi-lookup id="ldapPrimaryUrl" jndi-name="java:comp/env/ldapPrimaryUrl"/>
+    <jee:jndi-lookup id="ldapSecondaryUrl" jndi-name="java:comp/env/ldapSecondaryUrl"/>
+    <jee:jndi-lookup id="ldapUsername" jndi-name="java:comp/env/ldapUsername"/>
+    <jee:jndi-lookup id="ldapPassword" jndi-name="java:comp/env/ldapPassword"/>  
+
     <bean id="defaultLdapServer" class="org.apereo.portal.ldap.ContextSourceLdapServerImpl">
-        <property name="contextSource">
-            <bean id="legacyLdapContext" class="org.springframework.ldap.core.support.LdapContextSource">    
-                <property name="url" value="${ldap.url}"/>
-                <property name="userDn" value="${ldap.userName}"/>
-                <property name="password" value="${ldap.password}"/>
-                <property name="pooled" value="false"/>
-            </bean>
-        </property>
-        <property name="uidAttribute" value="uid"/>
-        <property name="baseDN" value="${ldap.baseDn}"/>
+	    <property name="contextSource" ref="legacyLdapContext"/>
+	    <property name="uidAttribute" value="uid"/>
+	    <property name="baseDN" value="ou=People, dc=rutgers, dc=edu"/>
+	</bean>
+ 
+	<bean id="legacyLdapContext" class="org.springframework.ldap.core.support.LdapContextSource">
+	    <property name="urls">
+            <list>
+                <ref bean="ldapPrimaryUrl"/>
+                <ref bean="ldapSecondaryUrl"/>
+            </list>
+        </property>        
+        <property name="base" value="ou=People, dc=rutgers, dc=edu"/>
+        <property name="userDn" ref="ldapUsername"/>
+        <property name="password" ref="ldapPassword"/>
+        <property name="pooled" value="false"/>        
+		<property name="baseEnvironmentProperties">
+		  	<map>
+		    	<entry key="com.sun.jndi.ldap.connect.timeout" value="1000" />
+		    	<entry key="com.sun.jndi.ldap.read.timeout" value="3000" />
+		  	</map>
+		</property>
     </bean>
-    -->
     
     <!--
      | Example LDAP Server Configuration for LDAP person attribute lookups
@@ -93,5 +112,4 @@
         <property name="pooled" value="false"/>
     </bean>
     -->
-
 </beans>
